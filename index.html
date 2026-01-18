@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
-  <title>支援ページ | 御手洗 遊</title>
+  <title>寿命支援 | 御手洗 遊</title>
   <style>
     :root{
       --bg: #0b0b10;
@@ -20,7 +20,6 @@
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius: 18px;
       --radius2: 24px;
-      --pad: 18px;
       --maxw: 980px;
       --btnh: 56px;
       --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", Arial, sans-serif;
@@ -51,43 +50,15 @@
     }
     a{color:inherit}
     .wrap{max-width: var(--maxw); margin:0 auto; padding: 28px 16px 56px;}
-    header{
-      display:flex; gap:14px; align-items:flex-start; justify-content:space-between;
-      margin-bottom: 18px;
-    }
-    .titlebox{
-      display:flex; flex-direction:column; gap:6px;
-    }
-    .kicker{
-      display:inline-flex; align-items:center; gap:10px;
-      color: var(--muted);
-      font-size: 13px;
-      letter-spacing:.06em;
-    }
-    .dot{
-      width:10px;height:10px;border-radius:99px;
-      background: linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow: 0 0 0 6px rgba(255,127,183,.12);
-    }
-    h1{
-      margin:0;
-      font-size: 26px;
-      letter-spacing:.02em;
-    }
-    .sub{
-      margin:0;
-      color: var(--muted);
-      font-size: 14px;
-    }
+    header{display:flex; gap:14px; align-items:flex-start; justify-content:space-between; margin-bottom: 18px;}
+    .titlebox{display:flex; flex-direction:column; gap:6px;}
+    .kicker{display:inline-flex; align-items:center; gap:10px; color: var(--muted); font-size: 13px; letter-spacing:.06em;}
+    .dot{width:10px;height:10px;border-radius:99px;background: linear-gradient(135deg,var(--accent),var(--accent2));box-shadow: 0 0 0 6px rgba(255,127,183,.12);}
+    h1{margin:0;font-size: 26px;letter-spacing:.02em;}
+    .sub{margin:0;color: var(--muted);font-size: 14px;}
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap: 16px;
-    }
-    @media (max-width: 900px){
-      .grid{grid-template-columns: 1fr; }
-    }
+    .grid{display:grid;grid-template-columns: 1.25fr .75fr;gap: 16px;}
+    @media (max-width: 900px){.grid{grid-template-columns: 1fr; }}
 
     .card{
       background: linear-gradient(180deg, var(--card2), var(--card));
@@ -97,21 +68,43 @@
       padding: 18px;
     }
 
-    /* Crowdfunding */
-    .cf-head{
-      display:flex; align-items:flex-start; justify-content:space-between; gap: 12px;
-      margin-bottom: 10px;
+    /* editable box */
+    .editbox{
+      margin-top: 12px;
+      border: 1px solid rgba(138,215,255,.25);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(138,215,255,.08);
+      color: var(--text);
+      font-size: 13px;
     }
-    .badge{
-      display:inline-flex;
-      align-items:center; gap:8px;
-      padding: 6px 10px;
+    @media (prefers-color-scheme: light){
+      .editbox{background: rgba(138,215,255,.12);}
+    }
+    .editbox strong{display:block; margin-bottom: 6px;}
+    .codechip{
+      display:inline-flex; gap:6px; align-items:center;
+      padding: 4px 10px;
       border-radius: 999px;
-      font-size: 12px;
       border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
       color: var(--muted);
-      background: rgba(255,255,255,.04);
-      user-select:none;
+      margin-right: 6px;
+      margin-top: 6px;
+    }
+    @media (prefers-color-scheme: light){
+      .codechip{background: rgba(0,0,0,.02);}
+    }
+
+    /* Crowdfunding */
+    .cf-head{display:flex; align-items:flex-start; justify-content:space-between; gap: 12px; margin-bottom: 10px;}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px; border-radius: 999px; font-size: 12px;
+      border: 1px solid var(--line); color: var(--muted);
+      background: rgba(255,255,255,.04); user-select:none;
     }
     .badge .b-dot{width:8px;height:8px;border-radius:99px;background: rgba(255,255,255,.35);}
     .badge.active{color: rgba(255,255,255,.92); border-color: rgba(255,127,183,.35); background: rgba(255,127,183,.10);}
@@ -121,16 +114,8 @@
       .badge.active{color: rgba(0,0,0,.88); background: rgba(255,127,183,.16);}
     }
 
-    .cf-title{
-      margin: 0 0 6px 0;
-      font-size: 20px;
-      letter-spacing:.01em;
-    }
-    .cf-meta{
-      margin:0;
-      color: var(--muted);
-      font-size: 13px;
-    }
+    .cf-title{margin: 0 0 6px 0; font-size: 20px; letter-spacing:.01em;}
+    .cf-meta{margin:0; color: var(--muted); font-size: 13px;}
     .meter{
       margin-top: 14px;
       border: 1px solid var(--line);
@@ -138,26 +123,11 @@
       padding: 12px;
       background: rgba(255,255,255,.03);
     }
-    @media (prefers-color-scheme: light){
-      .meter{background: rgba(0,0,0,.02);}
-    }
-    .meter-top{
-      display:flex; flex-wrap:wrap;
-      align-items:baseline; justify-content:space-between; gap: 10px;
-      margin-bottom: 10px;
-    }
-    .yen{
-      font-variant-numeric: tabular-nums;
-    }
-    .big{
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing:.02em;
-    }
-    .small{
-      color: var(--muted);
-      font-size: 13px;
-    }
+    @media (prefers-color-scheme: light){.meter{background: rgba(0,0,0,.02);}}
+    .meter-top{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap: 10px; margin-bottom: 10px;}
+    .yen{font-variant-numeric: tabular-nums;}
+    .big{font-size: 22px; font-weight: 800; letter-spacing:.02em;}
+    .small{color: var(--muted); font-size: 13px;}
     .bar{
       height: 14px;
       border-radius: 999px;
@@ -165,13 +135,9 @@
       border: 1px solid var(--line);
       overflow:hidden;
     }
-    @media (prefers-color-scheme: light){
-      .bar{background: rgba(0,0,0,.06);}
-    }
+    @media (prefers-color-scheme: light){.bar{background: rgba(0,0,0,.06);}}
     .bar > i{
-      display:block;
-      height: 100%;
-      width: 0%;
+      display:block; height: 100%; width: 0%;
       background: linear-gradient(90deg, var(--accent), var(--accent2), var(--good));
       border-radius: 999px;
       box-shadow: 0 0 20px rgba(255,127,183,.25);
@@ -184,21 +150,9 @@
       align-items:center;
       justify-content:space-between;
     }
-    .cf-desc{
-      margin-top: 12px;
-      color: var(--text);
-      font-size: 14px;
-    }
-    .cf-desc h3{
-      margin: 12px 0 6px;
-      font-size: 14px;
-      color: var(--muted);
-      letter-spacing:.06em;
-    }
-    .cf-desc ul{
-      margin: 6px 0 10px 18px;
-      color: var(--text);
-    }
+    .cf-desc{margin-top: 12px; color: var(--text); font-size: 14px;}
+    .cf-desc h3{margin: 12px 0 6px; font-size: 14px; color: var(--muted); letter-spacing:.06em;}
+    .cf-desc ul{margin: 6px 0 10px 18px; color: var(--text);}
     .cf-desc p{margin: 10px 0; color: var(--text);}
     .note{
       margin-top: 12px;
@@ -209,30 +163,14 @@
       color: var(--text);
       font-size: 13px;
     }
-    @media (prefers-color-scheme: light){
-      .note{background: rgba(255,127,183,.12);}
-    }
+    @media (prefers-color-scheme: light){.note{background: rgba(255,127,183,.12);}}
 
     /* Buttons */
-    .side h2{
-      margin: 0 0 10px;
-      font-size: 16px;
-      color: var(--muted);
-      letter-spacing:.06em;
-    }
-    .btns{
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-      margin-top: 10px;
-    }
+    .side h2{margin: 0 0 10px; font-size: 16px; color: var(--muted); letter-spacing:.06em;}
+    .btns{display:flex; flex-direction:column; gap: 10px; margin-top: 10px;}
     .btn{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      width: 100%;
-      min-height: var(--btnh);
+      display:flex; align-items:center; justify-content:space-between; gap: 10px;
+      width: 100%; min-height: var(--btnh);
       padding: 12px 14px;
       border-radius: var(--radius);
       border: 1px solid var(--line);
@@ -241,73 +179,31 @@
       box-shadow: 0 10px 20px rgba(0,0,0,.18);
       transition: transform .08s ease, border-color .12s ease, background .12s ease;
     }
-    @media (prefers-color-scheme: light){
-      .btn{background: rgba(0,0,0,.02);}
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,127,183,.35);
-      background: rgba(255,127,183,.06);
-    }
+    @media (prefers-color-scheme: light){.btn{background: rgba(0,0,0,.02);}}
+    .btn:hover{transform: translateY(-1px); border-color: rgba(255,127,183,.35); background: rgba(255,127,183,.06);}
     .btn:active{transform: translateY(0px);}
-    .left{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      min-width: 0;
-    }
+    .left{display:flex; align-items:center; gap: 12px; min-width: 0;}
     .ico{
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      display:grid;
-      place-items:center;
+      width: 36px; height: 36px; border-radius: 12px;
+      display:grid; place-items:center;
       border: 1px solid var(--line);
       background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
       flex: 0 0 auto;
-      font-weight: 900;
-      letter-spacing:.04em;
-      color: var(--text);
+      font-weight: 900; letter-spacing:.04em; color: var(--text);
     }
-    @media (prefers-color-scheme: light){
-      .ico{background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.02));}
-    }
-    .label{
-      display:flex; flex-direction:column; gap:2px;
-      min-width: 0;
-    }
-    .label strong{
-      font-size: 14px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .label span{
-      font-size: 12px;
-      color: var(--muted);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
+    @media (prefers-color-scheme: light){.ico{background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.02));}}
+    .label{display:flex; flex-direction:column; gap:2px; min-width: 0;}
+    .label strong{font-size: 14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .label span{font-size: 12px; color: var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
     .go{
-      color: var(--muted);
-      font-size: 13px;
-      flex: 0 0 auto;
+      color: var(--muted); font-size: 13px; flex: 0 0 auto;
       border: 1px solid var(--line);
-      padding: 6px 10px;
-      border-radius: 999px;
+      padding: 6px 10px; border-radius: 999px;
       background: rgba(255,255,255,.03);
     }
     .btn:hover .go{border-color: rgba(255,127,183,.35);}
 
-    footer{
-      margin-top: 16px;
-      color: var(--muted2);
-      font-size: 12px;
-      text-align:center;
-      opacity:.95;
-    }
-
+    footer{margin-top: 16px; color: var(--muted2); font-size: 12px; text-align:center; opacity:.95;}
     .hidden{display:none !important;}
   </style>
 </head>
@@ -318,7 +214,7 @@
   <header>
     <div class="titlebox">
       <div class="kicker"><span class="dot"></span> Support / Shien</div>
-      <h1 id="pageTitle">御手洗 遊｜支援ページ</h1>
+      <h1 id="pageTitle">寿命支援 | 御手洗 遊</h1>
       <p class="sub" id="pageSub">いつも応援ありがとう！無理のない範囲で支援してもらえたら嬉しいです。</p>
     </div>
   </header>
@@ -333,6 +229,17 @@
           <p class="cf-meta" id="cfMeta">目標：<span class="yen" id="cfGoal">¥200,000</span> ／ 期限：<span id="cfDeadline">期限なし</span></p>
         </div>
         <div class="badge" id="cfBadge"><span class="b-dot"></span><span id="cfBadgeText">開催していません</span></div>
+      </div>
+
+      <!-- ここだけ編集案内（わかりやすさ強化） -->
+      <div class="editbox">
+        <strong>✍️ 更新はここだけ（CONFIGの数字）</strong>
+        <div class="codechip">goalYen（目標）</div>
+        <div class="codechip">currentYen（現在）</div>
+        <div class="codechip">supporters（人数）</div>
+        <div style="margin-top:8px; color: var(--muted);">
+          ※%は自動計算されます（触らなくてOK）
+        </div>
       </div>
 
       <div class="meter" id="cfMeter">
@@ -407,12 +314,12 @@
           <div class="go">開く</div>
         </a>
 
-        <a class="btn" id="btnPayPal" href="#" target="_blank" rel="noopener">
+        <a class="btn" id="btnAmazon" href="#" target="_blank" rel="noopener">
           <div class="left">
-            <div class="ico">PL</div>
+            <div class="ico">AM</div>
             <div class="label">
-              <strong>PayPal</strong>
-              <span>海外の人もOK</span>
+              <strong>Amazonギフト券で支援</strong>
+              <span>受取人メールを mitaraiasobu@gmail.com に設定して送れます</span>
             </div>
           </div>
           <div class="go">開く</div>
@@ -465,8 +372,8 @@
       </div>
 
       <footer id="footerNote">
-        ※リンク先での入力内容は各サービスの規約・設定に従います。<br>
-        URLや金額はこのページの「CONFIG」だけ編集すれば変更できます。
+        ※URLや金額はこのページの「CONFIG」だけ編集すれば変更できます。<br>
+        ※Amazonギフト券は「Eメールタイプ」を選び、受取人メールを <b>mitaraiasobu@gmail.com</b> に設定してください。
       </footer>
     </aside>
 
@@ -475,62 +382,45 @@
 
 <script>
 /**
- * =========================
- * ここだけ編集すればOK！
- * =========================
+ * =========================================================
+ * ✅ 更新はここだけ！（URL・金額・人数）
+ * =========================================================
+ * - クラファン開催中か：active を true/false
+ * - 目標金額：goalYen
+ * - 現在金額：currentYen
+ * - 支援者数：supporters
+ * - URL：urls の中
+ * ％は自動で計算されます。
  */
 const CONFIG = {
-  pageTitle: "御手洗 遊｜支援ページ",
+  pageTitle: "寿命支援 | 御手洗 遊",
   pageSub: "いつも応援ありがとう！無理のない範囲で支援してもらえたら嬉しいです。",
 
   urls: {
-    // 例: "https://paypay.me/xxxxx"
     paypay: "https://example.com/paypay",
-
-    // 例: PayPal.me のURLや、PayPalの寄付/決済リンク
-    paypal: "https://example.com/paypal",
-
-    // ファンクラブ（Fanbox / Ci-en / メンバーサイト等）
+    amazonGift: "https://www.amazon.co.jp/dp/B0F47Z7VMX?ref=altParentAsins_treatment_text_from_Seasonal_to_Any&th=1",
     fanclub: "https://example.com/fanclub",
-
-    // グッズ（BOOTHなど）
     goods: "https://example.com/goods",
-
-    // YouTube（チャンネル or 配信URL）
     youtube: "https://example.com/youtube",
-
-    // 銀行振込はXに誘導（プロフィールURLでもOK）
-    // 例: "https://x.com/YourAccount"
     xProfile: "https://x.com/YourAccount"
   },
 
   crowdfunding: {
-    // 開催中なら true / 開催してないなら false
     active: true,
-
     title: "防音室を導入して絶叫を防げ！",
-    goalYen: 200000,
-
-    // 手入力でOK（集まった金額）
-    currentYen: 0,
-
-    // 手入力でOK（支援人数）
-    supporters: 0,
-
-    // 期限がないなら "期限なし"
+    goalYen: 200000,     // ←ここ（目標）
+    currentYen: 0,       // ←ここ（集まった）
+    supporters: 0,       // ←ここ（人数）
     deadlineText: "期限なし",
   }
 };
 
 // ===============
-// 下は触らなくてOK
+// 下は触らなくてOK（自動計算ゾーン）
 // ===============
 function yen(n){
-  try{
-    return "¥" + Number(n).toLocaleString("ja-JP");
-  }catch{
-    return "¥" + n;
-  }
+  try{ return "¥" + Number(n).toLocaleString("ja-JP"); }
+  catch{ return "¥" + n; }
 }
 function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
 
@@ -543,20 +433,14 @@ function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
   const setHref = (id, url) => {
     const el = document.getElementById(id);
     el.href = url || "#";
-    if(!url){
-      el.classList.add("hidden");
-    }
+    if(!url){ el.classList.add("hidden"); }
   };
-  setHref("btnPayPay", CONFIG.urls.paypay);
-  setHref("btnPayPal", CONFIG.urls.paypal);
+  setHref("btnPayPay",  CONFIG.urls.paypay);
+  setHref("btnAmazon",  CONFIG.urls.amazonGift);
   setHref("btnFanclub", CONFIG.urls.fanclub);
-  setHref("btnGoods", CONFIG.urls.goods);
+  setHref("btnGoods",   CONFIG.urls.goods);
   setHref("btnYouTube", CONFIG.urls.youtube);
-
-  // Bank transfer -> X
-  // Xの「DM作成リンク」は相手のrecipient_idが必要で、分からないと作れないことが多いので
-  // ここではプロフィールに飛ばして「DMしてね」にしています（確実に動く）。
-  setHref("btnBank", CONFIG.urls.xProfile);
+  setHref("btnBank",    CONFIG.urls.xProfile);
 
   // Crowdfunding
   const cf = CONFIG.crowdfunding;
@@ -577,12 +461,13 @@ function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
     document.getElementById("cfMeter").classList.add("hidden");
   }
 
-  // Meter values
+  // Meter values（%は自動）
   const current = Number(cf.currentYen) || 0;
   const goal = Math.max(1, Number(cf.goalYen) || 1);
   const supporters = Number(cf.supporters) || 0;
 
-  const pct = clamp((current / goal) * 100, 0, 999);
+  const pctRaw = (current / goal) * 100;
+  const pct = clamp(pctRaw, 0, 999);
   const remain = Math.max(0, goal - current);
 
   document.getElementById("cfCurrent").textContent = yen(current);
