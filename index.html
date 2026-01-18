@@ -21,9 +21,8 @@
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius: 18px;
       --radius2: 26px;
-      --maxw: 1080px;
+      --maxw: 1200px;
 
-      /* ここで全体の文字の大きさを上げる */
       --base: 16px;
       --h1: 30px;
       --h2: 18px;
@@ -44,7 +43,6 @@
       }
     }
 
-    /* スマホはさらに読みやすく */
     @media (max-width: 520px){
       :root{
         --base: 17px;
@@ -72,7 +70,7 @@
     .wrap{
       max-width: var(--maxw);
       margin:0 auto;
-      padding: 34px 18px 64px;
+      padding: 34px 32px 64px;
     }
 
     header{
@@ -109,8 +107,8 @@
 
     .grid{
       display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap: 18px;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
       align-items:start;
     }
     @media (max-width: 900px){
@@ -129,7 +127,6 @@
       .wrap{padding: 24px 14px 48px;}
     }
 
-    /* Crowdfunding */
     .cf-head{
       display:flex;
       align-items:flex-start;
@@ -194,7 +191,7 @@
       display:block;
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--good));
+      background: linear-gradient(90deg, rgba(255,255,255,0.9), var(--accent));
       border-radius: 999px;
       box-shadow: 0 0 20px rgba(255,127,183,.25);
     }
@@ -232,7 +229,6 @@
       .note{background: rgba(255,127,183,.12);}
     }
 
-    /* Buttons */
     .side h2{
       margin: 0 0 12px;
       font-size: var(--h2);
@@ -316,7 +312,6 @@
 
   <div class="grid">
 
-    <!-- Left: Crowdfunding -->
     <section class="card">
       <div class="cf-head">
         <div>
@@ -382,7 +377,6 @@
       </div>
     </section>
 
-    <!-- Right: Support buttons -->
     <aside class="card side">
       <h2>いますぐ支援する</h2>
       <div class="btns" id="btns">
@@ -465,17 +459,6 @@
 </div>
 
 <script>
-/*
-=========================================================
-✅ ここだけ編集すればOK！（URL・金額・人数）
----------------------------------------------------------
-【数字の入力】
-- goalYen     : 目標金額（例 200000）
-- currentYen  : 集まった金額（例 32500）
-- supporters  : 支援者数（例 41）
-※%表示は自動で計算されます（触らなくてOK）
-=========================================================
-*/
 const CONFIG = {
   pageTitle: "寿命支援 | 御手洗 遊",
   pageSub: "いつも応援ありがとう！無理のない範囲で支援してもらえたら嬉しいです。",
@@ -499,9 +482,6 @@ const CONFIG = {
   }
 };
 
-// ===============
-// 下は触らなくてOK（自動計算ゾーン）
-// ===============
 function yen(n){
   try{ return "¥" + Number(n).toLocaleString("ja-JP"); }
   catch{ return "¥" + n; }
