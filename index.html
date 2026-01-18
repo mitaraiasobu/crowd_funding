@@ -207,6 +207,24 @@
       justify-content:space-between;
     }
 
+    .thanks-message{
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,127,183,.15), rgba(138,215,255,.15));
+      border: 1px solid rgba(255,127,183,.3);
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: 700;
+      color: var(--text);
+      animation: celebration 0.6s ease-out;
+    }
+    @keyframes celebration {
+      0% { transform: scale(0.95); opacity: 0; }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
     .cf-desc{margin-top: 14px; font-size: 1em;}
     .cf-desc h3{
       margin: 14px 0 8px;
@@ -274,6 +292,7 @@
     .label{display:flex; flex-direction:column; gap:3px; min-width: 0;}
     .label strong{font-size: 1em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
     .label span{font-size: .9em; color: var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .label .fee{font-size: .85em; color: var(--muted2); margin-top: 2px;}
 
     .go{
       color: var(--muted);
@@ -286,6 +305,19 @@
       white-space: nowrap;
     }
     .btn:hover .go{border-color: rgba(255,127,183,.35);}
+
+    .yt-notice{
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,127,183,.25);
+      background: rgba(255,127,183,.08);
+      font-size: .88em;
+      line-height: 1.6;
+    }
+    @media (prefers-color-scheme: light){
+      .yt-notice{background: rgba(255,127,183,.12);}
+    }
 
     footer{
       margin-top: 18px;
@@ -331,6 +363,7 @@
           <div>進捗：<span class="yen" id="cfPct">0%</span></div>
           <div class="yen">残り：<span id="cfRemain">¥200,000</span></div>
         </div>
+        <div class="thanks-message hidden" id="thanksMsg">🎉 みんなありがとう！ 🎉</div>
       </div>
 
       <div class="cf-desc" id="cfDesc">
@@ -387,6 +420,7 @@
             <div class="label">
               <strong>PayPay</strong>
               <span>ワンタップで支援</span>
+              <div class="fee">手数料 0%</div>
             </div>
           </div>
           <div class="go">開く</div>
@@ -398,6 +432,7 @@
             <div class="label">
               <strong>Amazonギフト券で支援</strong>
               <span>受取人のメールを mitaraiasobu@gmail.com に設定してね</span>
+              <div class="fee">手数料 0%</div>
             </div>
           </div>
           <div class="go">開く</div>
@@ -409,6 +444,7 @@
             <div class="label">
               <strong>ファンクラブ</strong>
               <span>継続支援（特典あり）</span>
+              <div class="fee">手数料 10%</div>
             </div>
           </div>
           <div class="go">開く</div>
@@ -416,10 +452,11 @@
 
         <a class="btn" id="btnGoods" href="#" target="_blank" rel="noopener">
           <div class="left">
-            <div class="ico">GO</div>
+            <div class="ico">BO</div>
             <div class="label">
-              <strong>グッズ購入</strong>
+              <strong>BOOTH グッズ購入</strong>
               <span>購入時にBOOSTで支援できます</span>
+              <div class="fee">手数料 10%</div>
             </div>
           </div>
           <div class="go">開く</div>
@@ -431,10 +468,16 @@
             <div class="label">
               <strong>YouTube</strong>
               <span>スーパーチャット / メンバーシップで支援</span>
+              <div class="fee">手数料 30%〜</div>
             </div>
           </div>
           <div class="go">開く</div>
         </a>
+
+        <div class="yt-notice">
+          <strong>💡 YouTube支援についてのお願い</strong><br>
+          ウェブ版のYouTubeから支援すると手数料を抑えられます。アプリ版を使うと、AppleStoreやGooglePlayの手数料が引かれてしまうため、実質の手数料が50%を超えるそうです。もしよかったら、ウェブ版からお願い致します！
+        </div>
 
         <a class="btn" id="btnBank" href="#" target="_blank" rel="noopener">
           <div class="left">
@@ -442,6 +485,7 @@
             <div class="label">
               <strong>銀行振込</strong>
               <span>XのDMで口座情報をお送りします</span>
+              <div class="fee">手数料 0%（振込手数料のみ）</div>
             </div>
           </div>
           <div class="go">DM</div>
@@ -476,7 +520,7 @@ const CONFIG = {
     active: true,
     title: "防音室を導入して絶叫を防げ！",
     goalYen: 200000,
-    currentYen: 200000,
+    currentYen: 0,
     supporters: 0,
     deadlineText: "期限なし",
   }
@@ -535,6 +579,13 @@ function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
   document.getElementById("cfPct").textContent = (Math.round(pct * 10) / 10).toLocaleString("ja-JP") + "%";
   document.getElementById("cfRemain").textContent = yen(remain);
   document.getElementById("cfBar").style.width = clamp(pct, 0, 100) + "%";
+
+  const thanksMsg = document.getElementById("thanksMsg");
+  if(pct >= 100){
+    thanksMsg.classList.remove("hidden");
+  }else{
+    thanksMsg.classList.add("hidden");
+  }
 })();
 </script>
 </body>
