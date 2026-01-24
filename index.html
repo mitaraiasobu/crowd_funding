@@ -105,6 +105,37 @@
       font-size: 0.95em;
     }
 
+    /* language switch */
+    .langbox{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      flex: 0 0 auto;
+      margin-top: 2px;
+    }
+    .langbtn{
+      appearance:none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      letter-spacing:.04em;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .08s ease, border-color .12s ease, background .12s ease, color .12s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,.12);
+    }
+    @media (prefers-color-scheme: light){
+      .langbtn{background: rgba(0,0,0,.02);}
+    }
+    .langbtn:hover{transform: translateY(-1px); border-color: rgba(255,127,183,.35); background: rgba(255,127,183,.06); color: var(--text);}
+    .langbtn.active{color: var(--text); border-color: rgba(255,127,183,.35); background: rgba(255,127,183,.10);}
+    @media (prefers-color-scheme: light){
+      .langbtn.active{color: rgba(0,0,0,.88); background: rgba(255,127,183,.16);}
+    }
+
     .grid{
       display:grid;
       grid-template-columns: 1.4fr 1fr;
@@ -293,6 +324,7 @@
     .label strong{font-size: 1em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
     .label span{font-size: .9em; color: var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
     .label .fee{font-size: .85em; color: var(--muted2); margin-top: 2px;}
+    .label .note2{font-size: .85em; color: var(--muted2); margin-top: 2px;}
 
     .go{
       color: var(--muted);
@@ -336,9 +368,15 @@
 
   <header>
     <div class="titlebox">
-      <div class="kicker"><span class="dot"></span> Support / Shien</div>
+      <div class="kicker"><span class="dot"></span> <span id="kickerText">Support / Shien</span></div>
       <h1 id="pageTitle">寿命支援 | 御手洗 遊</h1>
       <p class="sub" id="pageSub">いつも応援ありがとう！無理のない範囲で支援してもらえたら嬉しいです。</p>
+    </div>
+
+    <div class="langbox" aria-label="Language switch">
+      <button class="langbtn" id="langJa" type="button">日本語</button>
+      <button class="langbtn" id="langEn" type="button">EN</button>
+      <button class="langbtn" id="langKo" type="button">한국어</button>
     </div>
   </header>
 
@@ -348,166 +386,163 @@
       <div class="cf-head">
         <div>
           <h2 class="cf-title" id="cfTitle">防音室を導入して絶叫を防げ！</h2>
-          <p class="cf-meta" id="cfMeta">目標：<span class="yen" id="cfGoal">¥200,000</span> ／ 期限：<span id="cfDeadline">期限なし</span></p>
+          <p class="cf-meta" id="cfMetaLine">
+            <span id="cfMetaGoalLabel">目標：</span><span class="yen" id="cfGoal">¥200,000</span>
+            <span id="cfMetaSep"> ／ </span>
+            <span id="cfMetaDeadlineLabel">期限：</span><span id="cfDeadline">期限なし</span>
+          </p>
         </div>
         <div class="badge" id="cfBadge"><span class="b-dot"></span><span id="cfBadgeText">開催していません</span></div>
       </div>
 
       <div class="meter" id="cfMeter">
         <div class="meter-top">
-          <div class="yen big"><span id="cfCurrent">¥0</span> 集まった！</div>
-          <div class="small">支援者：<span class="yen" id="cfSupporters">0</span> 人</div>
+          <div class="yen big"><span id="cfCurrent">¥0</span> <span id="cfCollectedSuffix">集まった！</span></div>
+          <div class="small"><span id="cfSupportersLabel">支援者：</span><span class="yen" id="cfSupporters">0</span> <span id="cfPeopleSuffix">人</span></div>
         </div>
         <div class="bar" aria-label="progress bar"><i id="cfBar"></i></div>
         <div class="bar-note">
-          <div>進捗：<span class="yen" id="cfPct">0%</span></div>
-          <div class="yen">残り：<span id="cfRemain">¥200,000</span></div>
+          <div><span id="cfProgressLabel">進捗：</span><span class="yen" id="cfPct">0%</span></div>
+          <div class="yen"><span id="cfRemainLabel">残り：</span><span id="cfRemain">¥200,000</span></div>
         </div>
         <div class="thanks-message hidden" id="thanksMsg">🎉 みんなありがとう！ 🎉</div>
       </div>
 
-
       <div class="cf-desc" id="cfDesc">
-        <p>
+        <p id="p1">
           防音室の導入はあくまで「配信の幅を広げる」ことが目的です。
           「これがないと配信できない」というものではないため、期限はありません。
           ゆっくり集めていきたいな！
         </p>
 
-        <p style="color: var(--muted2); font-size: 0.95em;">
+        <p id="p2" style="color: var(--muted2); font-size: 0.95em;">
           （ちょっと高望みしすぎちゃったかもって思ってるくらいだし......焦らず楽しみながら支援してくれるのが一番だよ～）
         </p>
 
-        <h3>目的</h3>
-        <ul>
-          <li>夜でも配信しやすくなる</li>
-          <li>歌の配信や収録がしやすくなる</li>
-          <li>ゲームをしている時に大きな声を出しても大丈夫</li>
-          <li>ご近所への配慮</li>
+        <h3 id="purposeTitle">目的</h3>
+        <ul id="purposeList">
+          <li id="li1">夜でも配信しやすくなる</li>
+          <li id="li2">歌の配信や収録がしやすくなる</li>
+          <li id="li3">ゲームをしている時に大きな声を出しても大丈夫</li>
+          <li id="li4">ご近所への配慮</li>
         </ul>
 
-        <p>
+        <p id="p3">
           私のお家のご近所に、赤ちゃんがいる家庭があります。せっかく赤ちゃんを寝かしつけたのに私の声で起こしてしまうととても申し訳ないです。
           きっと赤ちゃんがいない家庭にも迷惑になっていると思います。
         </p>
 
-        <p>
+        <p id="p4">
           また、ゲーム中の叫び声に「事件性を感じる」と注意を受けました。視聴者たちからも声が大きい（面白い意味で）とコメントを頂きますが、本当に声が大きいです。
         </p>
 
-        <p>
+        <p id="p5">
           普通の喋り声もかなり大きいみたいです。マイクにうまく入力させるように普通より大きな声で話しているためです。
         </p>
 
-        <p>
+        <p id="p6">
           窓とカーテンを閉めていても私の声が外に聞こえてしまいます。
           もちろんご近所からも赤ちゃんの泣き声、大人の笑う声、テレビの音、扉の音なども私の部屋まで聞こえてきますが、
           私の活動では日常で出る音をはるかに超えた騒音が響き渡ってしまいます。
         </p>
 
-        <p>
+        <p id="p7">
           今はせめてもの対策で、夜配信を8時～10時という枠でやらせていただいておりますが、
           防音室を購入できたら10時以降の時間帯での配信も取り入れたいと考えています。
         </p>
 
-        <div class="note" id="cfNote">
-          <strong>備考：</strong><br>
-          防音室購入の名目で「1万円以上」の支援をしていただいた方には、感謝の気持ちをこめて、支援者限定生配信にご招待します🤍<br>
-          さらに、特別な【称号】を授け、一般公開の「防音室 実装記念 生配信」にて表彰させていただきます。<br><br>
-          ※ファンクラブで1,500円＋アマギフで8,500円＝10,000円という計算も出来ます。<br>
-          ※表彰時のお名前はカスタマイズ可能です。<br><br>
-          寿命のみんな、いつも応援ありがとう！<br>
-          防音室ゲットの夢も、応援してくれたら嬉しいな。よろしくお願いします！
-        </div>
+        <div class="note" id="cfNote"></div>
       </div>
     </section>
 
     <aside class="card side">
-      <h2>支援してくれる......よね？🖤</h2>
+      <h2 id="supportTitle">支援してくれる......よね？🖤</h2>
       <div class="btns" id="btns">
 
         <a class="btn" id="btnPayPay" href="#" target="_blank" rel="noopener">
           <div class="left">
             <div class="ico">PP</div>
             <div class="label">
-              <strong>PayPay</strong>
-              <span>ワンタップで支援</span>
-              <div class="fee">手数料 0%</div>
+              <strong id="paypayTitle">PayPay</strong>
+              <span id="paypaySub">ワンタップで支援</span>
+              <div class="fee" id="paypayFee">手数料 0%</div>
             </div>
           </div>
-          <div class="go">開く</div>
+          <div class="go" id="btnOpen1">開く</div>
         </a>
 
         <a class="btn" id="btnAmazon" href="#" target="_blank" rel="noopener">
           <div class="left">
             <div class="ico">AM</div>
             <div class="label">
-              <strong>Amazonギフト券で支援</strong>
-              <span>受取人のメールを mitaraiasobu@gmail.com に設定してね</span>
-              <div class="fee">手数料 0%</div>
+              <strong id="amazonTitle">Amazonギフト券で支援</strong>
+              <span id="amazonSub">受取人のメールを mitaraiasobu@gmail.com に設定してね</span>
+              <div class="fee" id="amazonFee">手数料 0%</div>
+              <!-- ✅ 追加：amazon.co.jp注釈 -->
+              <div class="note2" id="amazonNote">※amazon.co.jpで発行されたものが対象です。</div>
             </div>
           </div>
-          <div class="go">開く</div>
+          <div class="go" id="btnOpen2">開く</div>
         </a>
 
         <a class="btn" id="btnFanclub" href="#" target="_blank" rel="noopener">
           <div class="left">
             <div class="ico">FC</div>
             <div class="label">
-              <strong>ファンクラブ</strong>
-              <span>継続支援(特典あり)※9999円プランは１万円と見なします</span>
-              <div class="fee">手数料 10%</div>
+              <strong id="fanclubTitle">ファンクラブ</strong>
+              <span id="fanclubSub">継続支援(特典あり)※9999円プランは１万円と見なします</span>
+              <div class="fee" id="fanclubFee">手数料 10%</div>
             </div>
           </div>
-          <div class="go">開く</div>
+          <div class="go" id="btnOpen3">開く</div>
         </a>
 
         <a class="btn" id="btnGoods" href="#" target="_blank" rel="noopener">
           <div class="left">
             <div class="ico">BO</div>
             <div class="label">
-              <strong>BOOTH グッズ購入</strong>
-              <span>購入時にBOOSTで増額することで支援できます</span>
-              <div class="fee">手数料 10%</div>
+              <strong id="goodsTitle">BOOTH グッズ購入</strong>
+              <span id="goodsSub">購入時にBOOSTで増額することで支援できます</span>
+              <div class="fee" id="goodsFee">手数料 10%</div>
             </div>
           </div>
-          <div class="go">開く</div>
+          <div class="go" id="btnOpen4">開く</div>
         </a>
 
         <a class="btn" id="btnYouTube" href="#" target="_blank" rel="noopener">
           <div class="left">
             <div class="ico">YT</div>
             <div class="label">
-              <strong>YouTube</strong>
-              <span>スーパーチャット / メンバーシップで支援</span>
-              <div class="fee">手数料 30%〜</div>
+              <strong id="ytTitle">YouTube</strong>
+              <span id="ytSub">スーパーチャット / メンバーシップで支援</span>
+              <div class="fee" id="ytFee">手数料 30%〜</div>
             </div>
           </div>
-          <div class="go">開く</div>
+          <div class="go" id="btnOpen5">開く</div>
         </a>
 
         <div class="yt-notice">
-          <strong>💡 YouTube支援についてのお願い</strong><br>
-          ウェブ版のYouTubeから支援すると手数料を抑えられます。アプリ版を使うと、AppleStoreやGooglePlayの手数料が引かれてしまうため、実質の手数料が50%を超えるそうです。もしよかったら、ウェブ版からお願い致します！
+          <strong id="ytNoticeTitle">💡 YouTube支援についてのお願い</strong><br>
+          <span id="ytNoticeBody">
+            ウェブ版のYouTubeから支援すると手数料を抑えられます。アプリ版を使うと、AppleStoreやGooglePlayの手数料が引かれてしまうため、実質の手数料が50%を超えるそうです。もしよかったら、ウェブ版からお願い致します！
+          </span>
         </div>
 
         <a class="btn" id="btnBank" href="#" target="_blank" rel="noopener">
           <div class="left">
             <div class="ico">DM</div>
             <div class="label">
-              <strong>銀行振込</strong>
-              <span>XのDMで口座情報をお送りします</span>
-              <div class="fee">手数料 0%（振込手数料のみ）</div>
+              <strong id="bankTitle">銀行振込</strong>
+              <span id="bankSub">XのDMで口座情報をお送りします</span>
+              <div class="fee" id="bankFee">手数料 0%（振込手数料のみ）</div>
             </div>
           </div>
-          <div class="go">DM</div>
+          <div class="go" id="btnDm">DM</div>
         </a>
 
       </div>
 
-      <footer id="footerNote">
-        ※Amazonギフト券は「Eメールタイプ」を選び、受取人メールを <b>mitaraiasobu@gmail.com</b> に設定してください。
-      </footer>
+      <footer id="footerNote"></footer>
     </aside>
 
   </div>
@@ -515,9 +550,6 @@
 
 <script>
 const CONFIG = {
-  pageTitle: "寿命支援 | 御手洗 遊",
-  pageSub: "いつも楽しい時間をくれてありがとう！無理のない範囲でい～～っぱい支援してもらえたら嬉しいです。",
-
   urls: {
     paypay: "https://qr.paypay.ne.jp/p2p01_BnEeWHc8oDCGMs0r",
     amazonGift: "https://www.amazon.co.jp/dp/B0F47Z7VMX?ref=altParentAsins_treatment_text_from_Seasonal_to_Any&th=1",
@@ -537,46 +569,371 @@ const CONFIG = {
   }
 };
 
+const I18N = {
+  ja: {
+    htmlLang: "ja",
+    docTitle: "寿命支援 | 御手洗 遊",
+    kicker: "Support / Shien",
+    pageTitle: "寿命支援 | 御手洗 遊",
+    pageSub: "いつも楽しい時間をくれてありがとう！無理のない範囲でい～～っぱい支援してもらえたら嬉しいです。",
+
+    cfMetaGoalLabel: "目標：",
+    cfMetaDeadlineLabel: "期限：",
+    badgeActive: "開催中",
+    badgeInactive: "開催していません",
+    collectedSuffix: "集まった！",
+    supportersLabel: "支援者：",
+    peopleSuffix: "人",
+    progressLabel: "進捗：",
+    remainLabel: "残り：",
+    thanks: "🎉 みんなありがとう！ 🎉",
+
+    cfTitle: "防音室を導入して絶叫を防げ！",
+
+    p1: "防音室の導入はあくまで「配信の幅を広げる」ことが目的です。「これがないと配信できない」というものではないため、期限はありません。ゆっくり集めていきたいな！",
+    p2: "（ちょっと高望みしすぎちゃったかもって思ってるくらいだし......焦らず楽しみながら支援してくれるのが一番だよ～）",
+    purposeTitle: "目的",
+    li1: "夜でも配信しやすくなる",
+    li2: "歌の配信や収録がしやすくなる",
+    li3: "ゲームをしている時に大きな声を出しても大丈夫",
+    li4: "ご近所への配慮",
+    p3: "私のお家のご近所に、赤ちゃんがいる家庭があります。せっかく赤ちゃんを寝かしつけたのに私の声で起こしてしまうととても申し訳ないです。きっと赤ちゃんがいない家庭にも迷惑になっていると思います。",
+    p4: "また、ゲーム中の叫び声に「事件性を感じる」と注意を受けました。視聴者たちからも声が大きい（面白い意味で）とコメントを頂きますが、本当に声が大きいです。",
+    p5: "普通の喋り声もかなり大きいみたいです。マイクにうまく入力させるように普通より大きな声で話しているためです。",
+    p6: "窓とカーテンを閉めていても私の声が外に聞こえてしまいます。もちろんご近所からも赤ちゃんの泣き声、大人の笑う声、テレビの音、扉の音なども私の部屋まで聞こえてきますが、私の活動では日常で出る音をはるかに超えた騒音が響き渡ってしまいます。",
+    p7: "今はせめてもの対策で、夜配信を8時～10時という枠でやらせていただいておりますが、防音室を購入できたら10時以降の時間帯での配信も取り入れたいと考えています。",
+
+    noteHtml:
+      "<strong>備考：</strong><br>" +
+      "防音室購入の名目で「1万円以上」の支援をしていただいた方には、感謝の気持ちをこめて、支援者限定生配信にご招待します🤍<br>" +
+      "さらに、特別な【称号】を授け、一般公開の「防音室 実装記念 生配信」にて表彰させていただきます。<br><br>" +
+      "※ファンクラブで1,500円＋アマギフで8,500円＝10,000円という計算も出来ます。<br>" +
+      "※表彰時のお名前はカスタマイズ可能です。<br><br>" +
+      "寿命のみんな、いつも応援ありがとう！<br>" +
+      "防音室ゲットの夢も、応援してくれたら嬉しいな。よろしくお願いします！",
+
+    supportTitle: "支援してくれる......よね？🖤",
+
+    paypayTitle: "PayPay",
+    paypaySub: "ワンタップで支援",
+    paypayFee: "手数料 0%",
+
+    amazonTitle: "Amazonギフト券で支援",
+    amazonSub: "受取人のメールを mitaraiasobu@gmail.com に設定してね",
+    amazonFee: "手数料 0%",
+    amazonNote: "※amazon.co.jpで発行されたものが対象です。",
+
+    fanclubTitle: "ファンクラブ",
+    fanclubSub: "継続支援(特典あり)※9999円プランは１万円と見なします",
+    fanclubFee: "手数料 10%",
+
+    goodsTitle: "BOOTH グッズ購入",
+    goodsSub: "購入時にBOOSTで増額することで支援できます",
+    goodsFee: "手数料 10%",
+
+    ytTitle: "YouTube",
+    ytSub: "スーパーチャット / メンバーシップで支援",
+    ytFee: "手数料 30%〜",
+    ytNoticeTitle: "💡 YouTube支援についてのお願い",
+    ytNoticeBody: "ウェブ版のYouTubeから支援すると手数料を抑えられます。アプリ版を使うと、AppleStoreやGooglePlayの手数料が引かれてしまうため、実質の手数料が50%を超えるそうです。もしよかったら、ウェブ版からお願い致します！",
+
+    bankTitle: "銀行振込",
+    bankSub: "XのDMで口座情報をお送りします",
+    bankFee: "手数料 0%（振込手数料のみ）",
+
+    open: "開く",
+    dm: "DM",
+
+    footerHtml:
+      "※Amazonギフト券は「Eメールタイプ」を選び、受取人メールを <b>mitaraiasobu@gmail.com</b> に設定してください。<br>" +
+      "※amazon.co.jpで発行されたものが対象です。"
+  },
+
+  en: {
+    htmlLang: "en",
+    docTitle: "Lifespan Support | Mitarai Asobu",
+    kicker: "Lifespan Support",
+    pageTitle: "Lifespan Support | Mitarai Asobu",
+    pageSub: "Thank you for always giving me fun moments! If you’d like, I’d be happy to receive support within your comfort zone.",
+
+    cfMetaGoalLabel: "Goal: ",
+    cfMetaDeadlineLabel: "Deadline: ",
+    badgeActive: "Live",
+    badgeInactive: "Not running",
+    collectedSuffix: "raised!",
+    supportersLabel: "Supporters: ",
+    peopleSuffix: "",
+    progressLabel: "Progress: ",
+    remainLabel: "Remaining: ",
+    thanks: "🎉 Thank you so much! 🎉",
+
+    cfTitle: "Get a soundproof booth to prevent scream incidents!",
+
+    p1: "The goal of getting a soundproof booth is simply to expand what I can do on stream. It’s not something I must have to stream, so there’s no deadline. I’d like to collect it slowly!",
+    p2: "(Honestly, I sometimes feel like I’m aiming a bit high... so please support in a relaxed, fun way—no rush!)",
+    purposeTitle: "Purpose",
+    li1: "Easier to stream at night",
+    li2: "Easier to sing / record",
+    li3: "I can be loud while gaming without worry",
+    li4: "Being considerate to neighbors",
+    p3: "There’s a family with a baby in my neighborhood. If my voice wakes the baby after they finally fall asleep, I’d feel truly sorry. I’m sure it can bother other households too.",
+    p4: "I was even warned that my screams during games could sound like an emergency. Viewers also tell me my voice is loud (in a funny way), but… it’s really loud.",
+    p5: "Even my normal speaking voice seems quite loud. I tend to speak louder than usual so the mic picks it up clearly.",
+    p6: "Even with the windows and curtains closed, my voice can be heard outside. Of course I can hear neighbors’ everyday sounds too, but my streams can produce noise far beyond normal daily life.",
+    p7: "Right now, as a minimal measure, I stream at night only from 8pm to 10pm. If I can get a soundproof booth, I’d like to add streams after 10pm as well.",
+
+    noteHtml:
+      "<strong>Notes:</strong><br>" +
+      "If you support me with <b>¥10,000 or more</b> toward the booth, I’ll invite you to a supporters-only live stream as a thank-you 🤍<br>" +
+      "You’ll also receive a special <b>Title</b>, and I’ll honor you during a public “Soundproof Booth Launch” stream.<br><br>" +
+      "* You can also combine supports, e.g. Fan Club ¥1,500 + Amazon Gift ¥8,500 = ¥10,000.<br>" +
+      "* Your displayed name for the award can be customized.<br><br>" +
+      "Thank you always, everyone!<br>" +
+      "I’d be so happy if you cheer for my soundproof-booth dream too!",
+
+    supportTitle: "You’ll support me... right? 🖤",
+
+    paypayTitle: "PayPay",
+    paypaySub: "One-tap support",
+    paypayFee: "Fee 0%",
+
+    amazonTitle: "Support via Amazon Gift Card",
+    amazonSub: "Set recipient email to mitaraiasobu@gmail.com",
+    amazonFee: "Fee 0%",
+    amazonNote: "* Only gift cards issued on amazon.co.jp are eligible.",
+
+    fanclubTitle: "Fan Club",
+    fanclubSub: "Ongoing support (perks) *¥9,999 plan counts as ¥10,000",
+    fanclubFee: "Fee 10%",
+
+    goodsTitle: "BOOTH (Buy goods)",
+    goodsSub: "You can support by adding BOOST at checkout",
+    goodsFee: "Fee 10%",
+
+    ytTitle: "YouTube",
+    ytSub: "Support via Super Chat / Membership",
+    ytFee: "Fee 30%+",
+    ytNoticeTitle: "💡 About supporting on YouTube",
+    ytNoticeBody: "Supporting from YouTube on the web can reduce fees. If you use the app, platform fees (App Store / Google Play) may be taken, and the effective fee can exceed 50%. If possible, please use the web version!",
+
+    bankTitle: "Bank transfer",
+    bankSub: "I’ll send account info via X DM",
+    bankFee: "Fee 0% (bank transfer fee only)",
+
+    open: "Open",
+    dm: "DM",
+
+    footerHtml:
+      "* For Amazon Gift Cards, choose “E-mail delivery” and set the recipient email to <b>mitaraiasobu@gmail.com</b>.<br>" +
+      "* Only gift cards issued on amazon.co.jp are eligible."
+  },
+
+  ko: {
+    htmlLang: "ko",
+    docTitle: "수명 후원 | 미타라이 아소부",
+    pageTitle: "수명 후원 | 미타라이 아소부",
+    kicker: "수명",
+    pageSub: "항상 즐거운 시간을 줘서 고마워! 무리하지 않는 선에서 후원해 주면 정말 기뻐.",
+
+    cfMetaGoalLabel: "목표: ",
+    cfMetaDeadlineLabel: "기한: ",
+    badgeActive: "진행 중",
+    badgeInactive: "진행 중 아님",
+    collectedSuffix: "모였어!",
+    supportersLabel: "후원자: ",
+    peopleSuffix: "명",
+    progressLabel: "진행률: ",
+    remainLabel: "남은 금액: ",
+    thanks: "🎉 정말 고마워! 🎉",
+
+    cfTitle: "방음부스를 도입해서 절규를 막자!",
+
+    p1: "방음부스 도입은 어디까지나 ‘방송의 폭을 넓히기’ 위한 목적이야. ‘없으면 방송을 못 한다’는 건 아니라서 기한은 없어. 천천히 모아가고 싶어!",
+    p2: "(솔직히 좀 무리한 목표인가… 싶기도 해서…… 급하게 말고, 즐기면서 후원해 주는 게 최고야!)",
+    purposeTitle: "목적",
+    li1: "밤에도 방송하기 쉬워짐",
+    li2: "노래 방송/녹음이 쉬워짐",
+    li3: "게임 중 크게 소리 질러도 괜찮음",
+    li4: "이웃 배려",
+    p3: "근처에 아기가 있는 가정이 있어. 어렵게 재운 아기를 내 목소리로 깨우면 정말 미안할 것 같아. 아기가 없는 집에도 분명 방해가 될 수 있다고 생각해.",
+    p4: "또 게임 중 비명 소리가 ‘사건성이 느껴진다’는 주의를 받은 적도 있어. 시청자들도 목소리가 크다고(재미로) 말해주지만… 진짜로 커.",
+    p5: "평소 말하는 목소리도 꽤 큰 편인 것 같아. 마이크에 잘 들어가게 하려고 평소보다 크게 말하는 편이거든.",
+    p6: "창문과 커튼을 닫아도 내 목소리가 밖으로 새어 나가. 물론 이웃의 일상 소리도 들리지만, 내 활동은 일상 소리를 훨씬 뛰어넘는 소음이 될 때가 있어.",
+    p7: "지금은 최소한의 대책으로 밤 방송을 8시~10시에 하고 있는데, 방음부스를 살 수 있다면 10시 이후 시간대 방송도 하고 싶어.",
+
+    noteHtml:
+      "<strong>비고:</strong><br>" +
+      "방음부스 명목으로 <b>1만 엔 이상</b> 후원해 준 분께는 감사의 마음을 담아 후원자 한정 생방송에 초대할게🤍<br>" +
+      "또 특별한 <b>칭호</b>를 드리고, 공개 ‘방음부스 실장 기념 방송’에서 표창하겠습니다.<br><br>" +
+      "* 팬클럽 1,500엔 + 아마존 기프트 8,500엔 = 10,000엔처럼 합산도 가능해.<br>" +
+      "* 표창 때 표시할 이름은 커스터마이즈 가능해.<br><br>" +
+      "항상 응원해줘서 고마워!<br>" +
+      "방음부스 꿈도 함께 응원해주면 정말 기쁠 것 같아. 잘 부탁해!",
+
+    supportTitle: "후원해 줄 거지......? 🖤",
+
+    paypayTitle: "PayPay",
+    paypaySub: "원탭으로 후원",
+    paypayFee: "수수료 0%",
+
+    amazonTitle: "Amazon 기프트권으로 후원",
+    amazonSub: "수신자 이메일을 mitaraiasobu@gmail.com 으로 설정해줘",
+    amazonFee: "수수료 0%",
+    amazonNote: "* amazon.co.jp에서 발행된 기프트권만 대상입니다.",
+
+    fanclubTitle: "팬클럽",
+    fanclubSub: "지속 후원(특전 있음) *9,999엔 플랜은 1만 엔으로 간주",
+    fanclubFee: "수수료 10%",
+
+    goodsTitle: "BOOTH 굿즈 구매",
+    goodsSub: "결제 시 BOOST로 금액을 추가해 후원할 수 있어",
+    goodsFee: "수수료 10%",
+
+    ytTitle: "YouTube",
+    ytSub: "슈퍼챗 / 멤버십으로 후원",
+    ytFee: "수수료 30%~",
+    ytNoticeTitle: "💡 YouTube 후원 안내",
+    ytNoticeBody: "웹 버전 YouTube에서 후원하면 수수료를 줄일 수 있어. 앱으로 하면 App Store/Google Play 수수료가 추가로 빠져서 실질 수수료가 50%를 넘을 수 있다고 해. 가능하면 웹 버전으로 부탁해!",
+
+    bankTitle: "계좌이체",
+    bankSub: "X DM으로 계좌 정보를 보내줄게",
+    bankFee: "수수료 0% (이체 수수료만)",
+
+    open: "열기",
+    dm: "DM",
+
+    footerHtml:
+      "* Amazon 기프트권은 ‘이메일 타입’을 선택하고, 수신자 이메일을 <b>mitaraiasobu@gmail.com</b> 으로 설정해줘.<br>" +
+      "* amazon.co.jp에서 발행된 기프트권만 대상입니다."
+  }
+};
+
 function yen(n){
   try{ return "¥" + Number(n).toLocaleString("ja-JP"); }
   catch{ return "¥" + n; }
 }
 function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
 
-(function init(){
-  document.getElementById("pageTitle").textContent = CONFIG.pageTitle;
-  document.getElementById("pageSub").textContent = CONFIG.pageSub;
+function setHref(id, url){
+  const el = document.getElementById(id);
+  el.href = url || "#";
+  if(!url){ el.classList.add("hidden"); }
+}
 
-  const setHref = (id, url) => {
-    const el = document.getElementById(id);
-    el.href = url || "#";
-    if(!url){ el.classList.add("hidden"); }
-  };
-  setHref("btnPayPay",  CONFIG.urls.paypay);
-  setHref("btnAmazon",  CONFIG.urls.amazonGift);
-  setHref("btnFanclub", CONFIG.urls.fanclub);
-  setHref("btnGoods",   CONFIG.urls.goods);
-  setHref("btnYouTube", CONFIG.urls.youtube);
-  setHref("btnBank",    CONFIG.urls.xProfile);
+function applyLang(lang){
+  const t = I18N[lang] || I18N.ja;
 
+  // html/lang + title
+  document.documentElement.lang = t.htmlLang || "ja";
+  document.title = t.docTitle;
+
+  // header
+  document.getElementById("kickerText").textContent = t.kicker;
+  document.getElementById("pageTitle").textContent = t.pageTitle;
+  document.getElementById("pageSub").textContent = t.pageSub;
+
+  // meta labels / badge
+  document.getElementById("cfMetaGoalLabel").textContent = t.cfMetaGoalLabel;
+  document.getElementById("cfMetaDeadlineLabel").textContent = t.cfMetaDeadlineLabel;
+
+  // right side title
+  document.getElementById("supportTitle").textContent = t.supportTitle;
+
+  // buttons
+  document.getElementById("paypayTitle").textContent = t.paypayTitle;
+  document.getElementById("paypaySub").textContent = t.paypaySub;
+  document.getElementById("paypayFee").textContent = t.paypayFee;
+
+  document.getElementById("amazonTitle").textContent = t.amazonTitle;
+  document.getElementById("amazonSub").textContent = t.amazonSub;
+  document.getElementById("amazonFee").textContent = t.amazonFee;
+  document.getElementById("amazonNote").textContent = t.amazonNote;
+
+  document.getElementById("fanclubTitle").textContent = t.fanclubTitle;
+  document.getElementById("fanclubSub").textContent = t.fanclubSub;
+  document.getElementById("fanclubFee").textContent = t.fanclubFee;
+
+  document.getElementById("goodsTitle").textContent = t.goodsTitle;
+  document.getElementById("goodsSub").textContent = t.goodsSub;
+  document.getElementById("goodsFee").textContent = t.goodsFee;
+
+  document.getElementById("ytTitle").textContent = t.ytTitle;
+  document.getElementById("ytSub").textContent = t.ytSub;
+  document.getElementById("ytFee").textContent = t.ytFee;
+  document.getElementById("ytNoticeTitle").textContent = t.ytNoticeTitle;
+  document.getElementById("ytNoticeBody").textContent = t.ytNoticeBody;
+
+  document.getElementById("bankTitle").textContent = t.bankTitle;
+  document.getElementById("bankSub").textContent = t.bankSub;
+  document.getElementById("bankFee").textContent = t.bankFee;
+
+  // generic buttons
+  document.getElementById("btnOpen1").textContent = t.open;
+  document.getElementById("btnOpen2").textContent = t.open;
+  document.getElementById("btnOpen3").textContent = t.open;
+  document.getElementById("btnOpen4").textContent = t.open;
+  document.getElementById("btnOpen5").textContent = t.open;
+  document.getElementById("btnDm").textContent = t.dm;
+
+  // cf content (texts)
+  document.getElementById("cfTitle").textContent = t.cfTitle;
+  document.getElementById("p1").textContent = t.p1;
+  document.getElementById("p2").textContent = t.p2;
+  document.getElementById("purposeTitle").textContent = t.purposeTitle;
+  document.getElementById("li1").textContent = t.li1;
+  document.getElementById("li2").textContent = t.li2;
+  document.getElementById("li3").textContent = t.li3;
+  document.getElementById("li4").textContent = t.li4;
+  document.getElementById("p3").textContent = t.p3;
+  document.getElementById("p4").textContent = t.p4;
+  document.getElementById("p5").textContent = t.p5;
+  document.getElementById("p6").textContent = t.p6;
+  document.getElementById("p7").textContent = t.p7;
+
+  document.getElementById("cfNote").innerHTML = t.noteHtml;
+  document.getElementById("footerNote").innerHTML = t.footerHtml;
+
+  // language button states
+  document.getElementById("langJa").classList.toggle("active", lang === "ja");
+  document.getElementById("langEn").classList.toggle("active", lang === "en");
+  document.getElementById("langKo").classList.toggle("active", lang === "ko");
+
+  // badge text depends on active flag too (but the wording is language-dependent)
   const cf = CONFIG.crowdfunding;
-  document.getElementById("cfTitle").textContent = cf.title;
+  const badgeText = document.getElementById("cfBadgeText");
+  badgeText.textContent = cf.active ? t.badgeActive : t.badgeInactive;
+
+  // meter labels
+  document.getElementById("cfCollectedSuffix").textContent = t.collectedSuffix;
+  document.getElementById("cfSupportersLabel").textContent = t.supportersLabel;
+  document.getElementById("cfPeopleSuffix").textContent = t.peopleSuffix;
+  document.getElementById("cfProgressLabel").textContent = t.progressLabel;
+  document.getElementById("cfRemainLabel").textContent = t.remainLabel;
+  document.getElementById("thanksMsg").textContent = t.thanks;
+
+  // persist
+  try{ localStorage.setItem("siteLang", lang); }catch{}
+}
+
+function initCrowdfundingNumbers(){
+  const cf = CONFIG.crowdfunding;
+
+  // set static parts (goal / deadline)
   document.getElementById("cfGoal").textContent = yen(cf.goalYen);
   document.getElementById("cfDeadline").textContent = cf.deadlineText;
 
+  // badge state / meter visibility
   const badge = document.getElementById("cfBadge");
   const badgeText = document.getElementById("cfBadgeText");
-
   if(cf.active){
     badge.classList.add("active");
-    badgeText.textContent = "開催中";
     document.getElementById("cfMeter").classList.remove("hidden");
   }else{
     badge.classList.remove("active");
-    badgeText.textContent = "開催していません";
     document.getElementById("cfMeter").classList.add("hidden");
   }
 
+  // numbers
   const current = Number(cf.currentYen) || 0;
   const goal = Math.max(1, Number(cf.goalYen) || 1);
   const supporters = Number(cf.supporters) || 0;
@@ -587,7 +944,8 @@ function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
 
   document.getElementById("cfCurrent").textContent = yen(current);
   document.getElementById("cfSupporters").textContent = supporters.toLocaleString("ja-JP");
-  document.getElementById("cfPct").textContent = (Math.round(pct * 10) / 10).toLocaleString("ja-JP") + "%";
+  document.getElementById("cfPct").textContent =
+    (Math.round(pct * 10) / 10).toLocaleString("ja-JP") + "%";
   document.getElementById("cfRemain").textContent = yen(remain);
   document.getElementById("cfBar").style.width = clamp(pct, 0, 100) + "%";
 
@@ -597,6 +955,29 @@ function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
   }else{
     thanksMsg.classList.add("hidden");
   }
+
+  // apply language-dependent badge/labels AFTER numbers are set
+  // (so language switch can reuse this too)
+  const saved = (() => { try { return localStorage.getItem("siteLang"); } catch { return null; } })();
+  applyLang(saved || "ja");
+}
+
+(function init(){
+  // set links
+  setHref("btnPayPay",  CONFIG.urls.paypay);
+  setHref("btnAmazon",  CONFIG.urls.amazonGift);
+  setHref("btnFanclub", CONFIG.urls.fanclub);
+  setHref("btnGoods",   CONFIG.urls.goods);
+  setHref("btnYouTube", CONFIG.urls.youtube);
+  setHref("btnBank",    CONFIG.urls.xProfile);
+
+  // language buttons
+  document.getElementById("langJa").addEventListener("click", () => applyLang("ja"));
+  document.getElementById("langEn").addEventListener("click", () => applyLang("en"));
+  document.getElementById("langKo").addEventListener("click", () => applyLang("ko"));
+
+  // initialize crowdfunding + first language
+  initCrowdfundingNumbers();
 })();
 </script>
 </body>
